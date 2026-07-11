@@ -2,7 +2,7 @@
 
 | Skill | Your specialist | What they do |
 |-------|----------------|--------------|
-| `/complete-updatelog` | **Completes Updatelog** | Works through the numbered Stages of one or more UPDATELOGV<M>.md docs — one stage at a time, never combined. Does the work, runs the stage's Verify: steps, fills in the Stage N Report, then commits + pushes as stage<N>v<M> after each stage. |
+| `/complete-updatelog` | **Completes Updatelog** | This skill only runs if you explicitly ask it to, (/complete-updatelog). Works through the numbered Stages of one or more UPDATELOGV<M>.md docs — one stage at a time, never combined. Does the work, runs the stage's Verify: steps, fills in the Stage N Report, then commits + pushes as stage<N>v<M> after each stage. |
 | `/updatelog` | **Creates Updatelog/s** | Scaffolds a new UPDATELOGV<N>.md in your real house format — charlie canary, Context + Decisions, numbered Stages (fenced prompt + Verify: line + _Pending._ report), and an After These Stages closer. Auto-numbers the file and hands off to /complete-updatelog to run it. |
 
 # Gstack
