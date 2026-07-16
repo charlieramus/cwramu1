@@ -4,6 +4,8 @@
 |-------|----------------|--------------|
 | `/complete-updatelog` | **Completes Updatelog** | This skill only runs if you explicitly ask it to, (/complete-updatelog). Works through the numbered Stages of one or more UPDATELOGV<M>.md docs — one stage at a time, never combined. Does the work, runs the stage's Verify: steps, fills in the Stage N Report, then commits + pushes as stage<N>v<M> after each stage. |
 | `/updatelog` | **Creates Updatelog/s** | Scaffolds a new UPDATELOGV<N>.md in your real house format — charlie canary, Context + Decisions, numbered Stages (fenced prompt + Verify: line + _Pending._ report), and an After These Stages closer. Auto-numbers the file and hands off to /complete-updatelog to run it. |
+| `/ui-mockups` | **Creates Portfolio Mockups** | Drives your real running app in a headless browser and captures ultraclean, retina downloadable PNGs — full-bleed 16:9 heroes in distinct app states, 1:1 component spotlights on a brand-tone wash, a 32:9 banner, and an icon tile. Two modes: **FULL** reveal (real data) or **SAFE** showcase (blurs real/user data + how-it-works for unreleased or sensitive apps). Pulls the brand tone from your design tokens and prefixes every file with the project name. |
+
 
 # Gstack
 
