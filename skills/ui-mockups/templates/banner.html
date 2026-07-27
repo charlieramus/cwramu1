@@ -1,0 +1,21 @@
+<!doctype html>
+<!--
+  Banner template. Replace the placeholders, save to a temp file, then:
+    browse viewport <W>x<H> --scale 2
+    browse load-html <this-file>
+    browse screenshot --selector ".banner" out.png
+  For 32:9 use viewport 1920x540 (-> 3840x1080). For 3:1 use 1920x640, etc.
+  {{BG}}        brand background tone, e.g. #F2EEE6
+  {{ICON_SVG}}  the app's real logomark SVG (inline, viewBox intact)
+  {{ICON_PX}}   icon size in CSS px (e.g. 240 reads big in the corner)
+  {{TOP}} {{LEFT}}  padding of the icon from the top-left corner
+-->
+<html><head><meta charset="utf-8"><style>
+  html,body{margin:0;padding:0}
+  .banner{width:1920px;height:540px;background:{{BG}};position:relative;overflow:hidden}
+  .logo{position:absolute;top:{{TOP}}px;left:{{LEFT}}px;width:{{ICON_PX}}px;height:{{ICON_PX}}px;display:block}
+</style></head><body>
+  <div class="banner">
+    {{ICON_SVG}}
+  </div>
+</body></html>

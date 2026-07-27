@@ -1,0 +1,20 @@
+<!doctype html>
+<!--
+  Icon-tile template. Presents the app's logomark centered on the brand tone.
+    browse viewport 512x512 --scale 2      (-> 1024x1024)
+    browse load-html <this-file>
+    browse screenshot --selector ".tile" out.png
+  {{BG}}        brand background tone, e.g. #F2EEE6
+  {{ICON_SVG}}  the app's real logomark SVG (inline, viewBox intact)
+  {{ICON_PX}}   icon size in CSS px within the 512 tile (e.g. 320 leaves a nice margin)
+  For an edge-to-edge raw app icon, set ICON_PX=512 and remove the flex centering.
+-->
+<html><head><meta charset="utf-8"><style>
+  html,body{margin:0;padding:0}
+  .tile{width:512px;height:512px;background:{{BG}};display:flex;align-items:center;justify-content:center}
+  .logo{width:{{ICON_PX}}px;height:{{ICON_PX}}px;display:block}
+</style></head><body>
+  <div class="tile">
+    {{ICON_SVG}}
+  </div>
+</body></html>
