@@ -46,6 +46,8 @@ Canary present.
   you picked before writing.
 - If the feature is part of a planned set, title it with set position, e.g.
   `Field-Ops 2/4: Coverage`.
+- **A log may never exceed FOUR stages** (see the hard cap below). Work that needs more
+  becomes two consecutively-numbered logs, `V<N>` and `V<N+1>`, titled `… 1/2` and `… 2/2`.
 
 ---
 
@@ -83,8 +85,8 @@ keeps stages honest], which is [where that lives instead].
 - **Locked / Soon:** [what stays a labeled LockedTile/SoonPill — never fabricated].
 - **DESIGN.md:** cool ground #FBFBFC, violet #8C43F6 + fit ramp, Geist Mono figures,
   rounded-2xl, quiet status pills, no gradients, no pricing/dollar language.
-- [Stage-count line — REQUIRED, last bullet:] Thin feature: five stages.
-  (or "Medium feature: four stages." / "Three stages." — match the guide below.)
+- [Stage-count line — REQUIRED, last bullet:] Thin feature: two stages.
+  (or "Medium feature: three stages." / "Four stages." — MAX FOUR, see the cap below.)
 
 ---
 
@@ -115,13 +117,72 @@ _Pending._
   (point at NOW.md), and what the next major build is.]
 ```
 
-### Stage count guide (state it in the last Decisions bullet)
-- Simple component / thin feature: 2–3 stages
-- Medium feature: 4–6 stages
-- Large system: 8–12 stages
+### Stage count — HARD CAP: FOUR (Ostiara)
+
+**No Ostiara log may have more than four stages. This is not a guideline.** Six- and
+eight-stage logs took whole sessions, drifted, and left `_Pending._` reports stranded
+mid-build. Four is the ceiling; fewer is better.
+
+- Simple component / thin feature: 2 stages
+- Medium feature: 3 stages
+- Anything larger: **4 stages, or split into multiple logs** — never a fifth stage.
 - The **final stage** is almost always a "Coherence + Verify" stage that runs the full
   build/test, does a literal walkthrough, and **updates `NOW.md`** (move the feature into
-  the functional list). Include it.
+  the functional list). Include it — and count it against the four.
+- State the count in the last Decisions bullet, e.g. `Medium feature: three stages.` or
+  `No migration, closing log of the roadmap: four stages.`
+
+**When the work does not fit in four stages — SPLIT IT, do not compress it.** Compressing
+six stages into four by merging prompts produces stages nobody can complete in one pass,
+which is the exact failure the cap exists to prevent.
+
+- Write **two logs**, `UPDATELOGV<N>.md` and `UPDATELOGV<N+1>.md`, four stages or fewer each.
+- Title them with the split position: `… 1/2: <what the first half does>` and
+  `… 2/2: <what the second half does>`. Split on a **real seam** (audit/fix, build/verify,
+  one subsystem/another) — never mid-stage.
+- **Log 1's last stage verifies and hands off**: it runs the gate, updates `NOW.md` with the
+  half-done state, and names exactly what log 2 inherits. It must NOT declare the feature or
+  the arc complete.
+- **Log 2's Context reads log 1 and its artifacts first**, states plainly what log 1 already
+  did, and says *do not redo it*. Log 2's last stage is the real closer.
+- **Shared foundations go in log 1** (schemas, guards, test seams) so log 2's fixes have
+  something to fix against. If log 1 leaves a test deliberately red for log 2, it must name
+  that test in its report — that named list is log 2's inbox.
+- Tell the user about both numbers in the handoff, and note that **downstream version
+  references shift by one** — fix the stale ones (`NOW.md`, the roadmap doc, any brief).
+
+---
+
+## Context budget — keep an executing log under ~40%
+
+A log is not just a document, it is a **context bill** for whoever runs it. Before writing,
+loosely predict what executing the whole log will cost and **aim to stay under ~40% of the
+window on Opus 5**. Above that, `/complete-updatelog` starts compacting mid-stage, reports
+drift, and later stages get done from a summary of the plan instead of the plan.
+
+Estimate roughly — this is a sanity check, not accounting. Rough per-log cost:
+
+- the log itself, read once per stage (~1k tokens per 40 lines);
+- the docs the Context tells the agent to read (`NOW.md`, `DESIGN.md`, any pass-on brief) —
+  read once and carried for the whole run, so a 600-line `DESIGN.md` is a permanent tax;
+- **per stage: the files it touches, read and re-read, plus build/lint/tsc output and any
+  screenshots** — the dominant term. Budget generously per stage; a stage that rewrites a
+  stylesheet or walks three routes in two modes costs far more than one that adds a table.
+
+If the estimate is over, **split the log** (see the four-stage cap above) — do not shrink the
+prompts to make the number look smaller. Splitting genuinely halves the bill because each log
+runs in its own session; compressing does not.
+
+Cheap wins that lower the bill without losing anything:
+
+- point at the **specific section** of a doc (`DESIGN-PASSON.md §§1–2`), not the whole file;
+- in log 2 of a split, state what log 1 already did in a short "do not redo" list rather than
+  making the agent re-read log 1's artifacts to work it out;
+- keep `Verify:` lines to the checks that actually prove the stage — every extra screenshot
+  and full-file paste is real context spend;
+- never ask for a whole file to be pasted into a report; ask for the specific block.
+
+State the estimate in one line in the handoff, e.g. `Est. ~30% of an Opus 5 window per log.`
 
 ---
 
@@ -171,4 +232,9 @@ charlie
 ## Handoff
 
 After writing `UPDATELOGV<N>.md`, tell the user it's ready and that they can run
-**`/complete-updatelog v<N>`** (or "complete updatelogv<N>") to execute the stages.
+**`/complete-updatelog v<N>`** (or "complete updatelogv<N>") to execute the stages. Include
+the one-line context estimate from the budget section above.
+
+If the work was split across two logs (the four-stage cap), say so explicitly: name both
+numbers, say where the seam is and why, and tell the user they can run
+**`/complete-updatelog v<N>-v<N+1>`** to execute both in sequence, or one at a time.

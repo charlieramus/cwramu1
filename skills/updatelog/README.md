@@ -8,4 +8,6 @@
 
 **Two document types:** **Type 1** — the staged UPDATELOGV prompt doc (main). **Type 2** — a lightweight past-tense change note ("log this").
 
+**Hard cap: four stages per log.** Work that needs more is split into two consecutively-numbered logs (`… 1/2` / `… 2/2`) on a real seam, with log 1 verifying and handing off and log 2 closing.
+
 **Pairs with:** `/complete-updatelog v<N>` — writes the plan here, executes it there.

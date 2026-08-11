@@ -24,7 +24,8 @@ cp -r cwramu1/skills/* ~/.claude/skills/
 
 | Skill | What it does |
 |-------|---------------|
-| `complete-updatelog` | Executes the numbered Stages in an `UPDATELOGV*.md` build doc one at a time, committing + pushing after each stage. |
+| `complete-updatelog` | Executes the numbered Stages in an `UPDATELOGV*.md` build doc one at a time, committing + pushing after each stage. Runs on an `updatelogv<M>` branch, offers a merge into `main` with a generated description, paces against a daily contribution-graph budget, and ends with a copy-paste NEXT UP block. Carries `helpers/` (`budget.sh`, `stages.sh`). |
+| `complete-updatelog-nocommit` | Same, but never commits or pushes — code + reports only, left uncommitted in the working tree. |
 | `updatelog` | Scaffolds a new `UPDATELOGV<N>.md` in house format and hands off to `complete-updatelog`. |
 | `ui-mockups` | Drives a running app in a headless browser to capture portfolio-ready mockup/demo screenshots (FULL or SAFE disclosure mode). |
 | `founder-brief` | Generates an interrogation-ready founder's briefing for the current project, grounded in real build/test evidence. |
