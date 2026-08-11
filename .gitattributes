@@ -1,0 +1,4 @@
+# Shell helpers must stay LF. core.autocrlf=true would otherwise check them out
+# with CRLF on Windows, and Git Bash fails such a script with
+#   $'\r': command not found
+*.sh text eol=lf
