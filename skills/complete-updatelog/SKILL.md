@@ -173,6 +173,44 @@ c. **Verify** exactly as the stage's `Verify:` line says. **Chain the steps into
    the report rather than fabricating a result. Never claim a screenshot or a passing
    check you didn't actually produce.
 
+   #### THE FULL GATE RUNS ONCE PER LOG — Ostiara only
+
+   **Applies only when the repo is Ostiara**, and check rather than assume: the working
+   tree has a `NOW.md` **and** `package.json` has `"name": "ostiara"`. In any other repo
+   this subsection does not exist — run whatever that repo's verify says.
+
+   `npm run gate` drives the full Playwright suite against a production build, and every
+   run of it is **billable Supabase traffic**. This is not a guess: on 2026-08-19,
+   `pg_stat_statements` on the dev project read **4,677,667 PostgREST requests in 68
+   days**, with **zero users** — all of it laptop and gate traffic. Supabase has already
+   warned that another free-tier overrun disables the org. The gate is the largest single
+   source and it is entirely within our control.
+
+   So, per log:
+
+   - **Between stages, verify with the cheap layer** — `npx tsc --noEmit && npm test`,
+     plus `npm run build` when the stage touched rendering, plus
+     **`npm run test:e2e:smoke`** (the ~80 s `@smoke` tier) when the stage touched a
+     route, an action or a role gate. None of these is the full suite.
+   - **Run the full `npm run gate` ONCE, at the log's final stage**, and report its
+     numbers there. One green full gate per log, not per stage.
+   - **Never re-run the gate to "confirm" a green.** Three gates on one seed (V107,
+     V115) is three times the traffic for a number that was already measured; if a
+     result needs confirming, say what varied and re-run only the affected spec.
+
+   **The log outranks this skill.** If a stage's own `Verify:` line explicitly calls for
+   the full gate, run the full gate — and note in that stage's report that it was the
+   log's instruction, so the cost is attributable. Likewise, if a stage is *about* the
+   gate or the suite, it obviously gets to run them.
+
+   **This is a cost policy, not permission to weaken verification.** *A skip is not a
+   pass* still holds, `npm test` still runs every stage, and a log still closes on a real
+   green full gate. What changed is the number of times the expensive layer runs, not
+   whether it runs.
+
+   Revisit when Supabase dev/test traffic no longer hits the cloud — a local stack
+   (Docker + `supabase start`) makes the whole policy unnecessary.
+
 d. **Write the `## Stage N Report`.** Replace `_Pending._` with a concrete report of
    what you did, matching the voice/detail of the existing reports in the same file
    (routes touched, files changed, wiring, verify results, deviations from the spec

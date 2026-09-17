@@ -115,6 +115,31 @@ c. **Verify** exactly as the stage's `Verify:` line says (typically
    the report rather than fabricating a result. Never claim a screenshot or a passing
    check you didn't actually produce.
 
+   #### THE FULL GATE RUNS ONCE PER LOG — Ostiara only
+
+   **Applies only when the repo is Ostiara**, and check rather than assume: the working
+   tree has a `NOW.md` **and** `package.json` has `"name": "ostiara"`. In any other repo
+   this subsection does not exist.
+
+   `npm run gate` drives the full Playwright suite against a production build, and every
+   run of it is **billable Supabase traffic**. Measured 2026-08-19: `pg_stat_statements`
+   on the dev project read **4,677,667 PostgREST requests in 68 days** with **zero
+   users** — all laptop and gate traffic — and Supabase has warned that another
+   free-tier overrun disables the org.
+
+   - **Between stages, verify with the cheap layer** — `npx tsc --noEmit && npm test`,
+     plus `npm run build` when the stage touched rendering, plus
+     **`npm run test:e2e:smoke`** (~80 s) when it touched a route, an action or a role
+     gate.
+   - **Run the full `npm run gate` ONCE, at the log's final stage.**
+   - **Never re-run the gate to "confirm" a green** (V107, V115 each ran three on one
+     seed). If a result needs confirming, name what varied and re-run only that spec.
+
+   **The log outranks this skill** — a stage whose `Verify:` line calls for the full gate
+   gets the full gate, noted as such in its report. **This is a cost policy, not
+   permission to weaken verification:** *a skip is not a pass* still holds and `npm test`
+   still runs every stage. Revisit once dev/test traffic no longer hits the cloud.
+
 d. **Write the `## Stage N Report`.** Replace `_Pending._` with a concrete report of
    what you did, matching the voice/detail of the existing reports in the same file
    (routes touched, files changed, wiring, verify results, deviations from the spec
