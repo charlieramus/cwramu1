@@ -153,6 +153,57 @@ which is the exact failure the cap exists to prevent.
 
 ---
 
+## THE FILING TEST — what a log's residue may become (added 2026-09-16, RESTRUCTURE Cut 3a)
+
+**A residue becomes a TICKET only if it passes one of three clauses.** Everything a log
+leaves unfinished, unmeasured or unexplained goes in **`After These Stages`** by default —
+on the record, searchable, **not queued**. It may go into `TODOS.md` only if it:
+
+- **(a)** changes something a **user** sees; **or**
+- **(b)** makes a gate catch a **real regression**; **or**
+- **(c)** blocks a **named roadmap item**.
+
+Nothing else. *"The error bar is wider than I would like"*, *"the instrument does not print
+X"*, *"N = 1"*, *"this reading has a residue of its own"* — all fail. **A residue rule is
+sound only when residues are finite, and measurement's are not:** every reading leaves an
+error bar, every error bar is fileable, so a measuring log always manufactures its own
+successor. That is a loop, and this test is half of what breaks it (the other half is the
+selector order in `complete-updatelog` §3b).
+
+**When you scaffold a log, write its `After These Stages` section to hold residue** — not
+to promise tickets. If a stage spec tells the executing agent to file something, name the
+clause it passes in the spec itself.
+
+---
+
+## SIZE CAP — a stage prompt document is **~8 KB**, and the check FAILS the scaffold
+
+**Hard cap: 8,192 bytes.** Before handing a new `UPDATELOGV<N>.md` to the user, measure it
+and refuse to ship an over-cap file:
+
+```bash
+wc -c UPDATELOGV<N>.md            # must be <= 8192
+```
+
+If it is over, **cut the log — do not hand it over and mention the number.** This is a
+failing check in the same sense as a red test: the scaffold is not done.
+
+**Why length is causal and not cosmetic.** Logs ran 30–70 KB each (V226 is 65 KB and V227
+is 71 KB, both about moving a `layout.tsx`) and 11.7 MB in total. A 65 KB prompt has room
+to argue with itself, and that argument is where residue gets manufactured: ten pages of
+prose about a byte count will always find one more unmeasured thing, and one page will not
+have the room. The cap is on the **prompt document you write** — Context, Stages, Verify
+lines and the empty `_Pending._` reports. Reports written back by `/complete-updatelog`
+during execution are output, not scaffold, and do not count against it.
+
+**How to get under it:** five-line Context (not fifty); a Decisions list of decisions, not
+of arguments for them; one fenced prompt per stage with numbered imperatives; a one-line
+`Verify:`; no restating what `NOW.md`, `CLAUDE.md` or `DESIGN.md` already say — point at
+the section. If it still will not fit, **split the log** (see the four-stage cap), which
+halves the real bill rather than hiding it.
+
+---
+
 ## Context budget — keep an executing log under ~40%
 
 A log is not just a document, it is a **context bill** for whoever runs it. Before writing,

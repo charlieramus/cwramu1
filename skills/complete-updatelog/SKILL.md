@@ -105,6 +105,22 @@ Given an explicit `/complete-updatelog` invocation, the argument says which log(
 7. **Obey DESIGN.md** for any visual/UI work (Cabinet Grotesk display, Geist body,
    Geist Mono figures; violet `#8C43F6`; cool `#FBFBFC` console ground; no gradients,
    no AI slop). Each stage spec usually restates the relevant tokens.
+8. **THE FILING TEST — a residue becomes a TICKET only if it passes one of three clauses.**
+   A stage almost always leaves something unfinished, unmeasured or unexplained. That
+   residue goes in the log's **`After These Stages`** section by default — on the record,
+   searchable, **not queued**. It may be written into `TODOS.md` only if it:
+   - **(a)** changes something a **user** sees; **or**
+   - **(b)** makes a gate catch a **real regression**; **or**
+   - **(c)** blocks a **named roadmap item**.
+
+   Nothing else. *"The error bar is wider than I would like"*, *"the instrument does not
+   print X"*, *"N = 1"* and *"this measurement has a residue of its own"* all fail the
+   test — and a ticket that fails it is a queue entry the next log will pick up, which is
+   how a repo starts choosing its own exhaust. **A residue rule is only sound when
+   residues are finite, and measurement's are not: every reading leaves an error bar and
+   every error bar is fileable.** When you decline to file something, say so in the
+   report in one line and put it in `After These Stages`. State which clause a ticket you
+   DO file passes.
 
 ## Procedure
 
@@ -302,9 +318,17 @@ Get "what's next" in this order, and say which one you used:
 1. **Unfinished stages in the current log** (deferred by budget, or red) — those first.
 2. **The next `UPDATELOGV<M+1>.md` that exists** with unfinished stages
    (`helpers/stages.sh --next`).
-3. **No next log on disk** → read `NOW.md`'s open threads and `TODOS.md`'s top-priority
-   unblocked item, and suggest `/updatelog` to scaffold the next one, naming the job it
-   should take.
+3. **The next unstarted item in `docs/roadmap-*.md` — AND IT WINS.** A roadmap item
+   outranks any ticket, however urgent the ticket sounds. Suggest `/updatelog` to
+   scaffold the next log, naming that item as its subject.
+4. **`TODOS.md` — only if the roadmap is exhausted, and only `[OPEN]` P1/P2 items.**
+
+**Why the order is this and not the obvious one.** A defect queue can only emit the next
+defect: every measurement leaves an error bar, every error bar is fileable, and so a repo
+whose selector reads its ticket file first will choose its own exhaust forever — looking
+productive the whole time. Reaching for `TODOS.md` before the roadmap is the failure mode,
+not a fallback. **If no `docs/roadmap-*.md` exists, say the roadmap is MISSING and that a
+human has to write it**, rather than quietly dropping to step 4 and picking a ticket.
 
 Follow the block with the ordinary short summary: which logs/stages completed, commits
 pushed, stages skipped or deferred, verify caveats, and confirmation that `NOW.md` was

@@ -183,9 +183,15 @@ CARRY-IN (what V<M+1> inherits):
 
 Get "what's next" in this order, and say which one you used: (1) unfinished stages in the
 current log — an `_In progress._` block first; (2) the next `UPDATELOGV<M+1>.md` on disk
-with unfinished stages (`stages.sh --next`); (3) no next log → read `NOW.md`'s open threads
-and `TODOS.md`'s top-priority unblocked item and suggest `/updatelog` to scaffold the next
-one, naming the job it should take.
+with unfinished stages (`stages.sh --next`); (3) **the next unstarted item in
+`docs/roadmap-*.md` — AND IT WINS**, outranking any ticket however urgent it sounds;
+(4) `TODOS.md`, **only** if the roadmap is exhausted and **only** `[OPEN]` P1/P2 items.
+
+**A defect queue can only emit the next defect** — every measurement leaves an error bar
+and every error bar is fileable — so a selector that reads the ticket file first chooses
+the repo's own exhaust forever. **If no `docs/roadmap-*.md` exists, say the roadmap is
+MISSING and that a human has to write it**, rather than dropping to (4) and picking a
+ticket.
 
 ## Notes & edge cases
 
